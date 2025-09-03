@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geotrace-rl"
+version = "0.1.0"
+description = "Physics-grounded process rewards for structured gravity reasoning"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy==1.26.4; python_version < '3.12'",
+    "numpy==2.2.6; python_version >= '3.12'",
+]
+keywords = ["GRPO", "PPO", "Monte Carlo", "process rewards", "geophysics"]
+
+[project.optional-dependencies]
+train = [
+    "torch==2.6.0; python_version < '3.12'",
+    "torch==2.8.0; python_version >= '3.12'",
+]
+text = [
+    "torch==2.6.0; python_version < '3.12'",
+    "torch==2.8.0; python_version >= '3.12'",
+    "transformers==4.51.3; python_version < '3.12'",
+    "transformers==4.56.0; python_version >= '3.12'",
+    "tokenizers==0.21.1; python_version < '3.12'",
+    "tokenizers==0.22.0; python_version >= '3.12'",
+    "datasets==4.0.0",
+    "accelerate==1.6.0; python_version < '3.12'",
+    "accelerate==1.10.1; python_version >= '3.12'",
+]
+simpeg = [
+    "simpeg==0.24.0",
+    "discretize==0.11.3",
+    "scipy==1.15.3; python_version < '3.12'",
+    "scipy==1.16.1; python_version >= '3.12'",
+]
+data = [
+    "pandas==2.2.3; python_version < '3.12'",
+    "pandas==2.3.2; python_version >= '3.12'",
+    "pyarrow==19.0.1; python_version < '3.12'",
+    "pyarrow==21.0.0; python_version >= '3.12'",
+]
+monitor = [
+    "wandb==0.19.11; python_version < '3.12'",
+    "wandb==0.21.3; python_version >= '3.12'",
+    "ray==2.45.0",
+]
+# Install the distributed stack on Linux/CUDA per verl's own compatibility guide.
+distributed = ["verl==0.5.0", "vllm==0.8.5", "ray[default,cgraph]==2.45.0"]
+dev = ["ruff==0.12.11", "mypy==1.17.1", "pytest==8.4.1", "pytest-cov==6.2.1"]
+
+[tool.setuptools.packages.find]
+include = ["geotrace*", "monitoring*"]
+
+[tool.setuptools.package-data]
+geotrace = ["prm_defaults.toml"]
+
+[tool.pytest.ini_options]
+minversion = "8.4"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+markers = [
+    "ray: local Ray worker tests requiring loopback sockets",
+    "gpu: Linux/CUDA experiment checks",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = ["outputs", "data", ".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "ANN"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["geotrace", "monitoring"]
+strict = true
+ignore_missing_imports = true
+show_error_codes = true
+pretty = true
+
+[tool.coverage.run]
+source = ["geotrace"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

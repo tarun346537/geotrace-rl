@@ -1,0 +1,28 @@
+# Linux x86_64, Python 3.11, CUDA 12.4. Separate from the Python 3.12 CPU profile.
+# GRPO, PPO, Monte Carlo labels and KL clipping are methods, not pip packages.
+# verl release metadata: https://github.com/verl-project/verl/blob/v0.5.0/setup.py
+# vLLM CUDA requirements: https://github.com/vllm-project/vllm/blob/v0.8.5/requirements/cuda.txt
+-c constraints-cuda.txt
+verl==0.5.0
+vllm==0.8.5
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
+tensordict==0.8.0
+torchdata==0.11.0
+ray[default,cgraph]==2.45.0
+numpy==1.26.4
+transformers==4.51.3
+tokenizers==0.21.1
+huggingface-hub==0.30.2
+datasets==4.0.0
+accelerate==1.6.0
+peft==0.15.2
+simpeg==0.24.0
+discretize==0.11.3
+scipy==1.15.3
+pandas==2.2.3
+pyarrow==19.0.1
+wandb==0.19.11
+# Newer OpenCV wheels require NumPy 2, while verl 0.5 requires NumPy below 2.
+opencv-python-headless==4.11.0.86

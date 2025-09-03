@@ -1,0 +1,15 @@
+# Observed local CPU environment: Python 3.12. Do not combine with cuda-verl.txt.
+-c constraints-cpu.txt
+-r base.txt
+torch==2.8.0
+transformers==4.56.0
+tokenizers==0.22.0
+datasets==4.0.0
+accelerate==1.10.1
+simpeg==0.24.0
+discretize==0.11.3
+scipy==1.16.1
+pandas==2.3.2
+pyarrow==21.0.0
+ray==2.45.0
+wandb==0.21.3

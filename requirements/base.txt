@@ -1,0 +1,2 @@
+# Python-specific NumPy pins are resolved from pyproject.toml.
+-e .
