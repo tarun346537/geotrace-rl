@@ -1,0 +1,30 @@
+# Process-reward training settings. Model and input identifiers are supplied per run.
+[training]
+epochs = 3
+batch_size = 4
+learning_rate = 0.00002
+max_length = 2048
+checkpoint_steps = 100
+early_stopping_patience = 3
+seed = 17
+threshold_min = 0.01
+threshold_max = 0.99
+threshold_steps = 99
+
+[tracking]
+project = "geotrace"
+mode = "offline"
+
+[feature]
+epochs = 40
+hidden = 48
+batch_size = 64
+learning_rate = 0.003
+seed = 17
+early_stopping_patience = 8
+min_delta = 0.000001
+grad_clip = 1.0
+std_floor = 0.00001
+threshold_min = 0.005
+threshold_max = 0.995
+threshold_steps = 199
