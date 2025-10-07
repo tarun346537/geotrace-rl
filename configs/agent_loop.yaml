@@ -1,0 +1,4 @@
+- name: geotrace_tool
+  _target_: geotrace.verl_agent.GravityAgentLoop
+  max_turns: 8
+  prune_threshold: 0.05
