@@ -1,0 +1,103 @@
+{
+  "kind": "benchmark_reference",
+  "description": "Experiment values and measurement definitions. Benchmark commands calculate new measurements from their input records.",
+  "comparison_requirements": [
+    "Fixed survey-disjoint splits and independent first-error annotations",
+    "Matched model revision, hardware, precision, batch/group sizes and token lengths",
+    "Recorded reward threshold, outcome tolerance, simulator geometry and software versions",
+    "Actual run manifests, durable checkpoints, allocation intervals and telemetry"
+  ],
+  "metrics": [
+    {
+      "metric": "reasoning_steps",
+      "value": 140000,
+      "unit": "steps",
+      "context": "Monte Carlo labels of SimPEG tool calls over public gravity surveys",
+      "measurement_path": "geotrace/rollout_cli.py: collection manifest steps, geotrace/rollouts.py: label_trace",
+      "required_inputs": "Actual survey source identifiers and collected textual tool traces"
+    },
+    {
+      "metric": "first_error_f1",
+      "baseline": 0.58,
+      "candidate": 0.81,
+      "unit": "fraction",
+      "context": "First-error detection supporting early trace pruning",
+      "measurement_path": "geotrace/text_prm_data.py:first_error_metrics, geotrace/text_prm_training.py:_first_error_report",
+      "required_inputs": "Independent step annotations and validation-selected threshold on disjoint test surveys"
+    },
+    {
+      "metric": "training_hardware",
+      "value": 8,
+      "unit": "NVIDIA A100 GPUs",
+      "context": "verl and vLLM rollout workers",
+      "measurement_path": "scripts/run_grpo_7b.sh:trainer.n_gpus_per_node, actual device inventory"
+    },
+    {
+      "metric": "vram_reduction",
+      "value": 0.35,
+      "unit": "relative fraction",
+      "context": "GRPO group-relative advantages remove PPO critic",
+      "measurement_path": "geotrace/benchmarks.py:compare_memory",
+      "definition": "1 - sum(GRPO measured device peaks) / sum(PPO measured device peaks)",
+      "required_inputs": "Matched workload object and measured per-device peak allocated byte arrays"
+    },
+    {
+      "metric": "policy_size",
+      "value": 7,
+      "unit": "billion parameters",
+      "context": "One-node policy training run",
+      "measurement_path": "scripts/run_grpo_7b.sh:GEOTRACE_MODEL, model config parameter inventory",
+      "required_inputs": "Actual 7B base model revision"
+    },
+    {
+      "metric": "training_nodes",
+      "value": 1,
+      "unit": "node",
+      "context": "7B policy run fits on one node",
+      "measurement_path": "scripts/run_grpo_7b.sh:trainer.nnodes"
+    },
+    {
+      "metric": "reward_hacking_rate",
+      "baseline": 0.23,
+      "candidate": 0.04,
+      "unit": "fraction of all rollouts",
+      "context": "Physics consistency verifiers and KL-anchored clipped process rewards",
+      "measurement_path": "geotrace/benchmarks.py:evaluate,compare",
+      "definition": "Assigned reward at or above fixed threshold while independent final outcome fails, divided by all rollouts"
+    },
+    {
+      "metric": "heldout_gravity_error_reduction",
+      "value": 0.29,
+      "unit": "relative fraction",
+      "context": "Process-reward RL versus outcome-only RL",
+      "measurement_path": "geotrace/benchmarks.py:evaluate,compare",
+      "definition": "1 - process mean held-out relative RMSE / outcome-only mean held-out relative RMSE",
+      "required_inputs": "Matched test cases and separate receiver observations excluded from policy inputs"
+    },
+    {
+      "metric": "interrupted_spot_jobs_restored",
+      "value": 11,
+      "unit": "jobs",
+      "context": "Ray durable checkpoint recovery",
+      "measurement_path": "geotrace/ops/ledger.py:RunLedger.summary, aggregate actual experiment run manifest",
+      "required_inputs": "Distinct interrupted job IDs, restored-attempt events and completion records"
+    },
+    {
+      "metric": "lost_runs",
+      "value": 0,
+      "unit": "runs",
+      "context": "Durable experiment identity and recovery state",
+      "measurement_path": "Actual launched-run manifest matched to durable ledger completion and checkpoint records",
+      "required_inputs": "All launched run IDs and explicit completion/retention criteria"
+    },
+    {
+      "metric": "usable_gpu_hours",
+      "value": 0.96,
+      "unit": "fraction per experiment",
+      "context": "Useful committed work versus measured full reservation time",
+      "measurement_path": "geotrace/ops/accounting.py:gpu_time_accounting, monitoring/status.py:--reserved-gpu-hours",
+      "definition": "Unique retained optimizer-step GPU hours / externally measured full allocation GPU hours",
+      "required_inputs": "Valid step durations/device counts plus complete allocation intervals including idle/repeated work"
+    }
+  ]
+}
