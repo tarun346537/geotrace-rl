@@ -1,0 +1,21 @@
+# Shared durable storage must be mounted at the same path on all Ray workers.
+[recovery]
+max_recoveries = 3
+initial_backoff_seconds = 2.0
+max_backoff_seconds = 30.0
+circuit_failure_limit = 5
+
+[resources]
+num_cpus = 1
+num_gpus = 0
+
+[transport]
+endpoint = "http://127.0.0.1:8000/v1"
+timeout_seconds = 120.0
+max_attempts = 3
+initial_backoff_seconds = 1.0
+max_backoff_seconds = 30.0
+circuit_failure_limit = 5
+circuit_reset_seconds = 60.0
+temperature = 0.8
+max_tokens = 768
