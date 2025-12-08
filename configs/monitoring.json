@@ -1,0 +1,8 @@
+{
+  "run_id": "scalar-checkpoint-example",
+  "worker": "monitoring.example_worker:optimize_scalar",
+  "worker_config": {"steps": 5, "initial_parameter": 2.0, "target": 0.25, "learning_rate": 0.1},
+  "resources": {"num_cpus": 1, "num_gpus": 0},
+  "max_recoveries": 3,
+  "alert_thresholds": {"physics_failure_fraction": 0.2, "kl_mean": 0.2}
+}
