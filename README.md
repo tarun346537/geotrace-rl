@@ -59,8 +59,7 @@ Exact direct pins live in [requirements/](requirements/README.md). The CPU and L
 | Transformers | 4.56.0 / 4.51.3 | Textual prefix classifier, Trainer checkpoints and early stopping. |
 | Weights & Biases | 0.21.3 / 0.19.11 | Optional experiment tracking and step/worker alerts. |
 | NumPy | 2.2.6 / 1.26.4 | Finite-grid baseline, Monte Carlo sampling and objective checks. |
-| Monte Carlo / KL clipping | Methods | Continuation probabilities, Wilson intervals, bounded rewards and actor KL. |
-| NVIDIA A100 | 8-device training node | One-node 7B policy training. |
+| Monte Carlo / reward clipping / KL regularization | Methods | Continuation probabilities, Wilson intervals, bounded rewards and actor KL. |
 
 ## Getting Started
 
